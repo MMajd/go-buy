@@ -1,4 +1,4 @@
-package com.mmajd.gobuy.backend.admin;
+package com.mmajd.gobuy.admin.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

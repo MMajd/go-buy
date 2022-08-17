@@ -7,9 +7,9 @@
         <groupId>com.mmajd.gobuy.web</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <name>backend</name>
-    <artifactId>backend</artifactId>
-    <description>Admin Project</description>
+    <name>admin</name>
+    <artifactId>amdin</artifactId>
+    <description>Admin Panel</description>
 
     <properties>
         <java.version>11</java.version>

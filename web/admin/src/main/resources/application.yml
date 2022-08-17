@@ -1,0 +1,37 @@
+server:
+  port: 8080
+  servlet.context-path: /admin
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/gobuy?createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: password
+
+  jpa:
+    hibernate:
+      use-new-id-generator-mappings: false
+      ddl-auto: none
+    show-sql: true
+    jpa.properties.hibernate.format_sql: true
+    spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+
+  flyway:
+    locations: classpath:db/migration
+
+
+flyway:
+  validate-on-migrate: false
+  encoding: UTF8MB4
+
+logging:
+  level:
+    mmajd: DEBUG
+#    root: DEBUG
+#    org.springframework.orm.jpa: DEBUG
+#    org.springframework.transaction: DEBUG
+
+#spring.mvc.pathmatch.matching-strategy: ant-path-matcher
