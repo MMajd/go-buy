@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" content="text/html" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scaled=1.0" name="viewport">
+
+    <title>[[${title}]]</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />-->
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />-->
+    <!--    <script type="text/javascript" th:src="@{/js/common.js}"></script>-->
     <title>Admin Panel | GoBuy</title>
 </head>
 <body>
-<h1>GoBuy admin panel</h1>
+    <h1>GoBuy admin panel</h1>
+    <a th:href="@{/users}">Users</a>
 </body>
 </html>

@@ -1,11 +1,11 @@
 CREATE TABLE users (
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    email varchar(128) NOT NULL,
+    enabled bit(1) DEFAULT NULL,
     first_name varchar(40) NOT NULL,
     last_name varchar(40) NOT NULL,
-    email varchar(128) NOT NULL,
     password varchar(64) NOT NULL,
     photos varchar(64) DEFAULT NULL,
-    enabled bit(1) DEFAULT NULL,
 
     PRIMARY KEY PK_USER_ID (`id`),
     UNIQUE email_UNIQUE (`email`)
@@ -14,8 +14,8 @@ CREATE TABLE users (
 
 CREATE TABLE roles (
     id bigint(20) NOT NULL AUTO_INCREMENT,
-    name varchar(40) NOT NULL,
     description varchar(255) NOT NULL,
+    name varchar(40) NOT NULL,
 
     PRIMARY KEY PK_ROLES_ID (`id`),
     UNIQUE name_UNIQUE (`name`)
