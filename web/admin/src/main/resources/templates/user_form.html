@@ -16,8 +16,13 @@
   <title>Admin Panel | User form </title>
 </head>
 <body class="container-fluid">
-  <h1> USER FORM </h1>
-  <form class="form mx-5" th:action="@{/users/save}" method="POST" th:object="${user}">
+  <h1 th:text="#{user-form}"></h1>
+  <form id="user-form" class="form mx-5"
+        th:action="@{/users/save}"
+        th:object="${user}"
+        onsubmit="return checkEmail(this);"
+        method="POST"
+  >
     <div class="form-group row mb-2">
       <input class="form-control" name="email" placeholder="Enter email" type="email" th:field="*{email}" required minlength="8" maxlength="128" />
     </div>
@@ -67,5 +72,25 @@
     </div>
     </div>
   </form>
+
+  <script>
+    function checkEmail(form) {
+      const email = $("#email").val();
+      const _csrf = $("input[name='_csrf']").val();
+      const url = "[[@{/api/users/check-email}]]";
+
+      $.post(url, {email, _csrf}, function (res) {
+          if (res) {
+            form.submit();
+          } else {
+            alert("Email already exist");
+          }
+      }).fail(function () {
+        alert("Something went wrong, please try again later");
+      });
+
+      return false;
+    }
+  </script>
 </body>
 </html>

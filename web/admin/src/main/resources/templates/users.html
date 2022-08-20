@@ -16,9 +16,9 @@
     <title>Admin Panel | Users</title>
 </head>
 <body class="container-fluid">
-<h1>users</h1>
 
-<a th:href="@{/users/new}">CREATE NEW USER</a>
+<h1 th:text="#{users}"></h1>
+<a th:href="@{/users/new}" class="btn btn-success" th:text="#{create-new-user}"></a>
 
 <div th:if="${message != null}" class="alert alert-success text-centered" role="alert">
     [[${message}]]
@@ -40,8 +40,16 @@
             <td>[[${user.firstName + " " + user.lastName}]]</td>
             <td>[[${user.email}]]</td>
             <td>[[${user.roles}]]</td>
+            <td>
+                <a th:href="@{'/users/edit/' + ${user.id}}" class="btn btn-primary">Edit</a>
+                <a th:href="@{'/users/delete/' + ${user.id}}" class="btn btn-danger">Delete</a>
+            </td>
         </tr>
     </tbody>
 </table>
+
+<script type="text/javascript">
+</script>
+
 </body>
 </html>

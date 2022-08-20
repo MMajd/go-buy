@@ -1,5 +1,6 @@
-package com.mmajd.gobuy.admin.controller;
+package com.mmajd.gobuy.admin.controller.mvc;
 
+import com.mmajd.gobuy.admin.exceptions.NotFoundException;
 import com.mmajd.gobuy.admin.service.RoleService;
 import com.mmajd.gobuy.admin.service.UserService;
 import com.mmajd.gobuy.common.entity.UserEntity;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -43,5 +45,21 @@ public class UserController {
         userService.save(user);
         attributes.addFlashAttribute("message", "Saved Successfully");
         return "redirect:/users";
+    }
+
+    @GetMapping("/edit/{id}")
+    private String editUser (@PathVariable Long id, Model model, RedirectAttributes attributes) {
+        try {
+            UserEntity user = userService.get(id);
+
+            user.setPassword(null);
+            model.addAttribute("user", user);
+            model.addAttribute("roles", roleService.listAll());
+
+            return "user_form";
+        } catch (NotFoundException ex) {
+            attributes.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/users";
+        }
     }
 }
