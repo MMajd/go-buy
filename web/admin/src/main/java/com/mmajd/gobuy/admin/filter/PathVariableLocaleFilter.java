@@ -34,13 +34,16 @@ public class PathVariableLocaleFilter extends OncePerRequestFilter {
             log.trace("Dispatching to new url \"{}\"", newUrl);
             RequestDispatcher dispatcher = request.getRequestDispatcher(newUrl);
             dispatcher.forward(request, response);
-        } else {
+        }
+        else {
             filterChain.doFilter(request, response);
         }
     }
 
     private boolean isLocale(String locale) {
         try {
+            // TODO: Fix to be usable with dialects
+            if (locale.length() > 2) return false;
             LocaleUtils.toLocale(locale);
             return true;
         } catch (IllegalArgumentException e) {

@@ -20,36 +20,86 @@
 <h1 th:text="#{users}"></h1>
 <a th:href="@{/users/new}" class="btn btn-success" th:text="#{create-new-user}"></a>
 
+
+<div th:if="${error != null}" class="alert alert-danger text-centered" role="alert">
+    [[${error}]]
+</div>
+
 <div th:if="${message != null}" class="alert alert-success text-centered" role="alert">
     [[${message}]]
 </div>
 
 
-<table>
-    <thead>
+<table class="table table-bordered table-hover">
+    <thead class="thead-light">
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
+            <th>#</th>
+            <th scope="col" th:text="#{name}"></th>
+            <th scope="col" th:text="#{email}"></th>
+            <th scope="col" th:text="#{account-status}"></th>
+            <th scope="col" th:text="#{role}"></th>
+            <th scope="col" th:text="#{actions}"></th>
         </tr>
     </thead>
     <tbody>
-        <tr th:each="user : ${users}">
-            <td>[[${user.id}]]</td>
+        <tr th:each="user : ${users}" >
+            <th scope="row">[[${user.id}]]</th>
             <td>[[${user.firstName + " " + user.lastName}]]</td>
             <td>[[${user.email}]]</td>
+            <td class="d-flex align-items-center justify-content-center">
+                <form th:id="${'toggle-status-' + user.id}"
+                      th:action="@{'/users/update-status/' + ${user.id}}"
+                      th:object="${user}"
+                      th:method="PUT"
+                >
+                    <input type="hidden" name="enabled" th:value="*{!enabled}">
+                </form>
+                <div class="form-check form-switch">
+                    <input
+                           class="form-check-input enable-switch"
+                           type="checkbox"
+                           role="switch"
+                           th:attr="data-id=${'toggle-status-' + user.id}"
+                           th:id="${user.id + '-enable'}"
+                           th:value="${user.enabled}"
+                           th:checked="${user.enabled}"
+                    >
+                </div>
+            </td>
             <td>[[${user.roles}]]</td>
             <td>
-                <a th:href="@{'/users/edit/' + ${user.id}}" class="btn btn-primary">Edit</a>
-                <a th:href="@{'/users/delete/' + ${user.id}}" class="btn btn-danger">Delete</a>
+                <form id="delete-user"
+                      th:action="@{'/users/delete/' + ${user.id}}"
+                      th:object="${user}"
+                      th:method="DELETE"
+                      onsubmit="return deleteUser(this)"
+                >
+                    <input type="hidden" name="id" th:value="*{id}">
+                </form>
+                <a th:href="@{'/users/edit/' + ${user.id}}" class="btn btn-primary" th:text="#{edit}"></a>
+                <button type="submit" class="btn btn-danger" form="delete-user" th:text="#{delete}"></button>
             </td>
         </tr>
     </tbody>
 </table>
 
 <script type="text/javascript">
-</script>
+    function deleteUser(form) {
+        const ok = confirm("Do you want to delete this record");
+        console.log(ok);
+        if (ok) {
+            form.submit();
+        }
+        return false;
+    }
 
+    $(function () {
+        $('.enable-switch').on('click', function () {
+            const formId = $(this).data('id');
+            const form = $(`#${formId}`);
+            form.submit();
+        })
+    })
+</script>
 </body>
 </html>

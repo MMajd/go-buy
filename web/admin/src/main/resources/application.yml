@@ -6,6 +6,10 @@ server:
     include-binding-errors: always
 
 spring:
+  mvc:
+    hiddenmethod.filter.enabled: true
+#    pathmatch.matching-strategy: ant-path-matcher
+
   defaultLocale: en
 
   messages:
@@ -21,7 +25,7 @@ spring:
     hibernate:
       use-new-id-generator-mappings: false
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     jpa.properties.hibernate.format_sql: true
     spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
 
@@ -35,7 +39,8 @@ flyway:
 
 logging:
   level:
-    mmajd: DEBUG
+    gobuy: DEBUG
+
 #    root: DEBUG
 #    org.springframework.orm.jpa: DEBUG
 #    org.springframework.transaction: DEBUG

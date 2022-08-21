@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -28,8 +29,9 @@ public class UserRestController {
     @PostMapping("/check-email")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Object checkEmail(@RequestParam("email") String email) {
-        log.info(email);
-        return service.uniqueEmail(email);
+    public Object checkEmail(@RequestParam("id") @Nullable Long userId,
+                             @RequestParam("email") String email) {
+        log.info("Given: user id: {}, and email: {} ", userId, email);
+        return service.uniqueEmail(userId, email);
     }
 }

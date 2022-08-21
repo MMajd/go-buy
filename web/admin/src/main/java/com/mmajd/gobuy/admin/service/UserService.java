@@ -1,14 +1,17 @@
 package com.mmajd.gobuy.admin.service;
-import com.mmajd.gobuy.admin.exceptions.NotFoundException;
-import com.mmajd.gobuy.admin.repository.UserRepository;
-import com.mmajd.gobuy.common.entity.UserEntity;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import com.mmajd.gobuy.admin.exceptions.NotFoundException;
+import com.mmajd.gobuy.admin.repository.UserRepository;
+import com.mmajd.gobuy.common.entity.UserEntity;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -27,29 +30,35 @@ public class UserService {
     }
 
     public UserEntity update(UserEntity user) {
-        UserEntity foundUser = repository.findById(user.getId()).orElseGet(null);
+        UserEntity foundUser = repository.findById(user.getId()).orElseThrow(() -> {
+            return new NotFoundException("No user found with given id");
+        });
 
-        if (foundUser == null) return null;
+        if (user.getPassword().trim().equals("")) {
+            user.setPassword(foundUser.getPassword());
+            return repository.save(user);
+        }
 
         encodeUserPassword(user);
-        foundUser.setEmail(user.getEmail());
-        foundUser.setPassword(user.getPassword());
-        foundUser.setFirstName(user.getFirstName());
-        foundUser.setLastName(user.getLastName());
-        foundUser.setPhotos(user.getPhotos());
-        foundUser.setEnabled(user.getEnabled());
-
-        repository.save(foundUser);
-
-        return foundUser;
+        return repository.save(user);
     }
 
     private void encodeUserPassword (UserEntity user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
-    public boolean uniqueEmail(String email) {
-        return repository.findByEmail(email) == null;
+    public boolean uniqueEmail(Long id, String email) {
+        UserEntity user = repository.findByEmail(email);
+
+        if (id == null) {
+            return user == null;
+        }
+
+        if (user == null) {
+            return true;
+        }
+
+        return user.getId().equals(id);
     }
 
     public UserEntity get(Long id) {
@@ -58,4 +67,18 @@ public class UserService {
                         return new NotFoundException("No user found with given id " + id);
                     });
     }
+
+    public void delete(Long id) throws NotFoundException {
+        if (repository.countById(id) == 0) {
+            throw new NotFoundException("No used found with given id " + id);
+        }
+
+        repository.deleteById(id);
+    }
+
+    @Transactional
+    public void updateEnabledStatus(Long id, Boolean enabled) {
+        repository.updateUserEnable(id, enabled);
+    }
+
 }

@@ -29,8 +29,8 @@ public class UserEntity {
     private String firstName;
     @Column(length = 40)
     private String lastName;
-    @Column(length=64)
-    private String photos;
+    @Column(length=64, name = "photos")
+    private String photo;
     @Column(name = "enabled")
     private Boolean enabled;
 
@@ -65,7 +65,7 @@ public class UserEntity {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", photos='" + photos + '\'' +
+                ", photos='" + photo + '\'' +
                 ", enabled=" + enabled +
                 ", roles=" + roles +
                 '}';
