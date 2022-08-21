@@ -1,5 +1,6 @@
 package com.mmajd.gobuy.admin.filter;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class LocaleAttributeChangeInterceptor implements HandlerInterceptor {
-    public static final String LOCALE_ATTR_NAME = "app.locale.attr";
+    public static final String LOCALE_ATTR_NAME = LocaleAttributeChangeInterceptor.class.getName()+".LOCALE";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

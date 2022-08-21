@@ -6,9 +6,12 @@ server:
     include-binding-errors: always
 
 spring:
+  defaultLocale: en
+
   messages:
       encoding: UTF-8
       basename: messages/messages
+
   datasource:
     url: jdbc:mysql://localhost:3306/gobuy?createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
