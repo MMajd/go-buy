@@ -9,9 +9,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />-->
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />-->
-<!--    <script type="text/javascript" th:src="@{/js/common.js}"></script>-->
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />-->
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />-->
+    <!--    <script type="text/javascript" th:src="@{/js/common.js}"></script>-->
 
     <title>Admin Panel | Users</title>
 </head>
@@ -32,54 +32,58 @@
 
 <table class="table table-bordered table-hover">
     <thead class="thead-light">
-        <tr>
-            <th>#</th>
-            <th scope="col" th:text="#{name}"></th>
-            <th scope="col" th:text="#{email}"></th>
-            <th scope="col" th:text="#{account-status}"></th>
-            <th scope="col" th:text="#{role}"></th>
-            <th scope="col" th:text="#{actions}"></th>
-        </tr>
+    <tr>
+        <th>#</th>
+        <th scope="col" th:text="#{name}"></th>
+        <th scope="col" th:text="#{email}"></th>
+        <th scope="col" th:text="#{image}"></th>
+        <th scope="col" th:text="#{account-status}"></th>
+        <th scope="col" th:text="#{role}"></th>
+        <th scope="col" th:text="#{actions}"></th>
+    </tr>
     </thead>
     <tbody>
-        <tr th:each="user : ${users}" >
-            <th scope="row">[[${user.id}]]</th>
-            <td>[[${user.firstName + " " + user.lastName}]]</td>
-            <td>[[${user.email}]]</td>
-            <td class="d-flex align-items-center justify-content-center">
-                <form th:id="${'toggle-status-' + user.id}"
-                      th:action="@{'/users/update-status/' + ${user.id}}"
-                      th:object="${user}"
-                      th:method="PUT"
+    <tr th:each="user : ${users}">
+        <th scope="row">[[${user.id}]]</th>
+        <td>[[${user.fullName}]]</td>
+        <td>[[${user.email}]]</td>
+        <td>
+            <img style="width: 150px" th:src="@{${user.imagePath}}" th:alt="${user.fullName}">
+        </td>
+        <td>
+            <form th:id="${'toggle-status-' + user.id}"
+                  th:action="@{'/users/update-status/' + ${user.id}}"
+                  th:object="${user}"
+                  th:method="PUT"
+            >
+                <input type="hidden" name="enabled" th:value="*{!enabled}">
+            </form>
+            <div class="form-check form-switch">
+                <input
+                        class="form-check-input enable-switch"
+                        type="checkbox"
+                        role="switch"
+                        th:attr="data-id=${'toggle-status-' + user.id}"
+                        th:id="${user.id + '-enable'}"
+                        th:value="${user.enabled}"
+                        th:checked="${user.enabled}"
                 >
-                    <input type="hidden" name="enabled" th:value="*{!enabled}">
-                </form>
-                <div class="form-check form-switch">
-                    <input
-                           class="form-check-input enable-switch"
-                           type="checkbox"
-                           role="switch"
-                           th:attr="data-id=${'toggle-status-' + user.id}"
-                           th:id="${user.id + '-enable'}"
-                           th:value="${user.enabled}"
-                           th:checked="${user.enabled}"
-                    >
-                </div>
-            </td>
-            <td>[[${user.roles}]]</td>
-            <td>
-                <form id="delete-user"
-                      th:action="@{'/users/delete/' + ${user.id}}"
-                      th:object="${user}"
-                      th:method="DELETE"
-                      onsubmit="return deleteUser(this)"
-                >
-                    <input type="hidden" name="id" th:value="*{id}">
-                </form>
-                <a th:href="@{'/users/edit/' + ${user.id}}" class="btn btn-primary" th:text="#{edit}"></a>
-                <button type="submit" class="btn btn-danger" form="delete-user" th:text="#{delete}"></button>
-            </td>
-        </tr>
+            </div>
+        </td>
+        <td>[[${user.roles}]]</td>
+        <td>
+            <form id="delete-user"
+                  th:action="@{'/users/delete/' + ${user.id}}"
+                  th:object="${user}"
+                  th:method="DELETE"
+                  onsubmit="return deleteUser(this)"
+            >
+                <input type="hidden" name="id" th:value="*{id}">
+            </form>
+            <a th:href="@{'/users/edit/' + ${user.id}}" class="btn btn-primary" th:text="#{edit}"></a>
+            <button type="submit" class="btn btn-danger" form="delete-user" th:text="#{delete}"></button>
+        </td>
+    </tr>
     </tbody>
 </table>
 
@@ -100,6 +104,13 @@
             form.submit();
         })
     })
+
+
+
+
+
+
+
 </script>
 </body>
 </html>

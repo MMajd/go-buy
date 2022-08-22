@@ -1,5 +1,6 @@
 package com.mmajd.gobuy.common.entity;
 
+import com.mmajd.gobuy.common.constant.ASSETS_CONSTANTS;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,15 +22,15 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @Column(length = 128, unique = true, nullable = false)
+    @Column()
     private String email;
-    @Column(length=64, nullable = false)
+    @Column()
     private String password;
-    @Column(length = 40)
+    @Column()
     private String firstName;
-    @Column(length = 40)
+    @Column()
     private String lastName;
-    @Column(length=64, name = "photos")
+    @Column(name = "photos")
     private String photo;
     @Column(name = "enabled")
     private Boolean enabled;
@@ -43,6 +44,20 @@ public class UserEntity {
 
     public boolean addRole(RoleEntity role) {
         return roles.add(role);
+    }
+
+    @Transient
+    public String imagePath() {
+        if (getId() == null || getPhoto() == null) {
+            return ASSETS_CONSTANTS.ASSET_DIR.getDir() + "/default-user.png";
+        }
+
+        return ASSETS_CONSTANTS.USER_IMAGES_DIR.getDir() + "/" + getId() + "/" + getPhoto();
+    }
+
+    @Transient
+    public String fullName() {
+        return getFirstName() + " " + getLastName();
     }
 
     @Override

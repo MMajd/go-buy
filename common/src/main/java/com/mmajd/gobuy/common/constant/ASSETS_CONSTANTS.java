@@ -1,4 +1,4 @@
-package com.mmajd.gobuy.admin.contant;
+package com.mmajd.gobuy.common.constant;
 
 public enum ASSETS_CONSTANTS {
     ASSET_DIR("assets"),
@@ -14,5 +14,9 @@ public enum ASSETS_CONSTANTS {
 
     public String getValue() {
         return value;
+    }
+
+    public String getDir() {
+        return "/" + value;
     }
 }

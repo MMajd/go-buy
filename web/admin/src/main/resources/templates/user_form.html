@@ -85,7 +85,7 @@
                                th:value="${user.photo}"
                                class="mr-2 mb-2"
                         >
-                        <img id="thumbnail" alt="Photo Previews" th:src="@{${user.photo}}" class="img-fluid">
+                        <img id="thumbnail" alt="Photo Previews" th:src="@{${user.imagePath}}" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -100,7 +100,7 @@
 </div>
 
 <script type="text/javascript">
-  	const MAX_FILE_SIZE = 102400 * 10; //100KB
+  	const MAX_FILE_SIZE = 102400 * 10;
 
     function checkEmail(form) {
       const email = $("#email").val();
@@ -160,6 +160,8 @@
             return true;
         }
     }
+
+
 
 
 

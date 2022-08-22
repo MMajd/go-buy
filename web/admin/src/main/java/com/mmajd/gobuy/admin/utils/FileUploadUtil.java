@@ -1,6 +1,6 @@
 package com.mmajd.gobuy.admin.utils;
 
-import com.mmajd.gobuy.admin.contant.ASSETS_CONSTANTS;
+import com.mmajd.gobuy.common.constant.ASSETS_CONSTANTS;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -44,9 +44,11 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    String saveUser(UserEntity user,
-                    RedirectAttributes attributes,
-                    @RequestParam("image") MultipartFile imgFile) throws IOException {
+    String saveUser(
+            @RequestParam("image") MultipartFile imgFile,
+            UserEntity user,
+            RedirectAttributes attributes
+    ) throws IOException {
 
         String filename = StringUtils.cleanPath(Objects.requireNonNull(imgFile.getOriginalFilename()));
 
@@ -83,11 +85,11 @@ public class UserController {
 
     @PostMapping("/update/{id}")
     String updateUser(
+            @RequestParam("image") MultipartFile imgFile,
             @PathVariable("id") Long id,
             UserEntity user,
             Model model,
-            RedirectAttributes attributes,
-            @RequestParam("image") MultipartFile imgFile
+            RedirectAttributes attributes
     ) {
 
         log.info("Roles {}", user.getRoles().toString());
