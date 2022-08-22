@@ -4,9 +4,13 @@ import com.mmajd.gobuy.admin.exceptions.NotFoundException;
 import com.mmajd.gobuy.admin.service.RoleService;
 import com.mmajd.gobuy.admin.service.UserService;
 import com.mmajd.gobuy.admin.utils.FileUploadUtil;
+import com.mmajd.gobuy.common.PagesUtil;
 import com.mmajd.gobuy.common.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -15,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -27,9 +30,25 @@ public class UserController {
     private final RoleService roleService;
 
     @GetMapping()
-    String listAllUsers(Model model) {
-        List<UserEntity> users = service.listAll();
-        model.addAttribute("users", users);
+    String listAllUsers(
+            @RequestParam("page") @Nullable Integer pageNo,
+            @RequestParam("sort-prop") @Nullable String sortProp,
+            @RequestParam("sort-dir") @Nullable String sortDir,
+            Model model
+    ) {
+        if (pageNo == null || pageNo < 1) {
+            return "redirect:/users?page=1";
+        }
+
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDir == null ? "asc" : sortDir), sortProp == null ? "id" : sortProp);
+
+        Page<UserEntity> usersPage = service.listByPage(pageNo - 1, sort);
+        model.addAttribute("startCount", PagesUtil.getStartCount(pageNo, UserService.PAGE_SIZE));
+        model.addAttribute("endCount", PagesUtil.getEndCount(pageNo, UserService.PAGE_SIZE, usersPage.getTotalElements()));
+        model.addAttribute("totalRecords", usersPage.getTotalElements());
+        model.addAttribute("currPage", pageNo);
+        model.addAttribute("totalPages", usersPage.getTotalPages());
+        model.addAttribute("users", usersPage.getContent());
         return "users";
     }
 
@@ -92,8 +111,7 @@ public class UserController {
             RedirectAttributes attributes
     ) {
 
-        log.info("Roles {}", user.getRoles().toString());
-
+        log.info("Update values {}", user.toString());
 
         try {
             if (!imgFile.isEmpty()) {
