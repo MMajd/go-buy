@@ -38,7 +38,7 @@
             <td>
                 <span class="badge rounded-pill d-inline"
                       th:classappend="${user.enabled} ? badge-success : badge-danger"
-                      th:text="active"></span>
+                      th:text="${user.enabled} ? #{active} : #{disabled}"></span>
             </td>
             <td>
                 <a th:href="@{|/users/edit/${user.id}|}" class="btn btn-outline-primary btn-sm btn-rounded"
@@ -98,30 +98,6 @@
             form.submit();
         })
     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </script>
 </body>

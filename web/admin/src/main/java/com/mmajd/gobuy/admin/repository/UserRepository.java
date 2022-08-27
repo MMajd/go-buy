@@ -19,7 +19,7 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
     long countById(@Param("id") Long id);
 //    public Long countById(Long id);
 
-    @Query(value = "SELECT * FROM users WHERE first_name LIKE %?1% or last_name LIKE %?1%", nativeQuery = true)
+    @Query(value = "SELECT * FROM users WHERE MATCH(first_name, last_name) AGAINST(?1 IN BOOLEAN MODE)", nativeQuery = true)
     Page<UserEntity> findAll(String keyword, Pageable pageable);
 
     @Modifying

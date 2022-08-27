@@ -50,7 +50,7 @@ public class UserController {
         model.addAttribute("currPage", pageNo);
         model.addAttribute("totalPages", usersPage.getTotalPages());
         model.addAttribute("users", usersPage.getContent());
-        return "users";
+        return "users/index";
     }
 
     @GetMapping("/new")
@@ -60,7 +60,7 @@ public class UserController {
         model.addAttribute("pageTitle", "Create User");
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.listAll());
-        return "user_form";
+        return "users/form";
     }
 
     @PostMapping("/save")
@@ -96,7 +96,7 @@ public class UserController {
             model.addAttribute("user", user);
             model.addAttribute("roles", roleService.listAll());
 
-            return "user_form";
+            return "users/form";
         } catch (NotFoundException ex) {
             attributes.addFlashAttribute("error", ex.getMessage());
             return "redirect:/users";
