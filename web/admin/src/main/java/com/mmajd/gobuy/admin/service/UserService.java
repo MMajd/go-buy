@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {
-    public static final long PAGE_SIZE = 10;
+    public static final long PAGE_SIZE = 2;
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
@@ -34,8 +34,15 @@ public class UserService {
     }
 
     public Page<UserEntity> listByPage(int pageNo, Sort sort) {
+        if (sort == null) return listByPage(pageNo);
         Pageable page = PageRequest.of(pageNo, (int) PAGE_SIZE, sort);
         return repository.findAll(page);
+    }
+
+    public Page<UserEntity> listByPage(int pageNo, Sort sort, String keyword) {
+        if (keyword == null) return listByPage(pageNo, sort);
+        Pageable page = PageRequest.of(pageNo, (int) PAGE_SIZE, sort);
+        return repository.findAll(keyword, page);
     }
 
 

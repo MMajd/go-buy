@@ -29,11 +29,12 @@ public class UserController {
     private final UserService service;
     private final RoleService roleService;
 
-    @GetMapping()
+    @GetMapping
     String listAllUsers(
             @RequestParam("page") @Nullable Integer pageNo,
             @RequestParam("sort-prop") @Nullable String sortProp,
             @RequestParam("sort-dir") @Nullable String sortDir,
+            @RequestParam("keyword") @Nullable String keyword,
             Model model
     ) {
         if (pageNo == null || pageNo < 1) {
@@ -42,7 +43,7 @@ public class UserController {
 
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir == null ? "asc" : sortDir), sortProp == null ? "id" : sortProp);
 
-        Page<UserEntity> usersPage = service.listByPage(pageNo - 1, sort);
+        Page<UserEntity> usersPage = service.listByPage(pageNo - 1, sort, keyword);
         model.addAttribute("startCount", PagesUtil.getStartCount(pageNo, UserService.PAGE_SIZE));
         model.addAttribute("endCount", PagesUtil.getEndCount(pageNo, UserService.PAGE_SIZE, usersPage.getTotalElements()));
         model.addAttribute("totalRecords", usersPage.getTotalElements());
