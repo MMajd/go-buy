@@ -175,6 +175,7 @@ public class UserController {
         return "redirect:/users";
     }
 
+    // TODO: change this to use async operations
     @GetMapping("/export/csv")
     String exportCSV(HttpServletResponse response) throws IOException {
         String[] mappings = new String[]{"id", "fullName", "email", "roles", "enabled"};
@@ -193,6 +194,7 @@ public class UserController {
         return "redirect:/users";
     }
 
+    // TODO: change this to use async operations
     @GetMapping("/export/pdf")
     void exportPDF(HttpServletResponse response) throws IOException {
 
