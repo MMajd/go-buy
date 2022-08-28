@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {
-    public static final long PAGE_SIZE = 2;
+    public static final long PAGE_SIZE = 10;
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;

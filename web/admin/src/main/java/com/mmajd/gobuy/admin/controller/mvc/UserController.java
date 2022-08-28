@@ -1,9 +1,12 @@
 package com.mmajd.gobuy.admin.controller.mvc;
 
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
 import com.mmajd.gobuy.admin.exceptions.NotFoundException;
 import com.mmajd.gobuy.admin.service.RoleService;
 import com.mmajd.gobuy.admin.service.UserService;
 import com.mmajd.gobuy.admin.utils.FileUploadUtil;
+import com.mmajd.gobuy.admin.utils.MediaExportUtil;
 import com.mmajd.gobuy.common.PagesUtil;
 import com.mmajd.gobuy.common.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +21,24 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+
+import static com.lowagie.text.FontFactory.HELVETICA_BOLD;
+import static com.lowagie.text.FontFactory.getFont;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
+    private static final String[] headers = {"Id", "Name", "Email", "Roles", "Active"};
+
     private final UserService service;
     private final RoleService roleService;
+
 
     @GetMapping
     String listAllUsers(
@@ -162,5 +173,58 @@ public class UserController {
         }
 
         return "redirect:/users";
+    }
+
+    @GetMapping("/export/csv")
+    String exportCSV(HttpServletResponse response) throws IOException {
+        String[] mappings = new String[]{"id", "fullName", "email", "roles", "enabled"};
+
+        List<UserEntity> users = service.listAll();
+
+        MediaExportUtil.exportCSV(response, "users", writer -> {
+            try {
+                writer.writeHeader(headers);
+                for (UserEntity u : users) writer.write(u, mappings);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not export users data to csv");
+            }
+        });
+
+        return "redirect:/users";
+    }
+
+    @GetMapping("/export/pdf")
+    void exportPDF(HttpServletResponse response) throws IOException {
+
+        List<UserEntity> users = service.listAll();
+
+        MediaExportUtil.exportPDF(response, "users", doc -> {
+            doc.addTitle("Generated Users list");
+            doc.addSubject("Users list");
+
+            doc.addHeader("Generated", "Users list");
+
+            doc.add(new Paragraph("LIST OF SYSTEM USERS:", getFont(HELVETICA_BOLD, 16)));
+
+            PdfPTable table = new PdfPTable(5);
+            table.setWidthPercentage(100f);
+            table.setSpacingBefore(10);
+
+            table.setWidths(new float[]{1.5f, 3.5f, 3.5f, 3.5f, 1.5f});
+
+            for (String h : headers) {
+                MediaExportUtil.writeHeaderCellToPDF(table, h);
+            }
+
+            for (UserEntity u : users) {
+                MediaExportUtil.writeDataCellToPDF(table, u.getId().toString());
+                MediaExportUtil.writeDataCellToPDF(table, u.getFullName());
+                MediaExportUtil.writeDataCellToPDF(table, u.getEmail());
+                MediaExportUtil.writeDataCellToPDF(table, u.getRoles().toString());
+                MediaExportUtil.writeDataCellToPDF(table, u.getEnabled().toString());
+            }
+
+            doc.add(table);
+        });
     }
 }

@@ -60,6 +60,11 @@ public class UserEntity {
         return getFirstName() + " " + getLastName();
     }
 
+    @Transient
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof UserEntity)) return false;

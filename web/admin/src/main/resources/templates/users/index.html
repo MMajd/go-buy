@@ -11,6 +11,10 @@
         <div class="col">
             <a th:href="@{/users/new}" type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark"
                th:text="#{create-new-user}"></a>
+            <a th:href="@{/users/export/csv}" type="button" class="btn btn-link" data-mdb-ripple-color="dark"
+               th:text="#{export-csv}"></a>
+            <a th:href="@{/users/export/pdf}" type="button" class="btn btn-link" data-mdb-ripple-color="dark"
+               th:text="#{export-pdf}"></a>
         </div>
     </div>
     <table class="table align-middle mb-0 bg-white">
@@ -48,10 +52,12 @@
                       th:text="${user.enabled} ? #{active} : #{disabled}"></span>
             </td>
             <td>
+                <span>
                 <a th:href="@{|/users/edit/${user.id}|}" class="btn btn-outline-primary btn-sm btn-rounded"
-                   th:text="#{edit}"></a>
+                   th:title="#{edit}"><span><i class="fas fa-pen"></i></span></a>
+                </span>
 
-                <div>
+                <span>
                     <form id="delete-user"
                           th:action="@{|/users/delete/${user.id}|}"
                           th:object="${user}"
@@ -61,8 +67,10 @@
                         <input type="hidden" name="id" th:value="*{id}">
                     </form>
                     <button type="submit" class="btn btn-outline-danger btn-sm btn-rounded" form="delete-user"
-                            th:text="#{delete}"></button>
-                </div>
+                            th:title="#{delete}">
+                        <span><i class="fas fa-trash"></i></span>
+                    </button>
+                </span>
             </td>
         </tr>
         </tbody>
@@ -105,12 +113,6 @@
             form.submit();
         })
     })
-
-
-
-
-
-
 
 
 
