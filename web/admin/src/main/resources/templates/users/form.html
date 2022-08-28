@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="base/page/main :: html(~{::title}, ~{::link}, ~{::body})">
-<title th:text="#{GoBuy | create-new-user}"></title>
+<title th:text="|#{GoBuy} ${'|'} #{create-new-user}||"></title>
 <link>
 <body th:replace="base/page/body :: body(~{::main}, ~{::script})">
 <main>
@@ -39,7 +39,7 @@
             <!-- Text input -->
             <div class="form-outline mb-4">
                 <div class="form-outline">
-                    <input class="form-control" th:placeholder="#{Enter email}" type="email"
+                    <input class="form-control" th:placeholder="#{enter-email}" type="email"
                            th:field="*{email}"
                            required
                            minlength="8" maxlength="128"/>
@@ -190,16 +190,6 @@
             return true;
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 </script>
 </body>

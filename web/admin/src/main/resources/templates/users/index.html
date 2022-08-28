@@ -1,11 +1,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="base/page/main :: html(~{::title}, ~{::link}, ~{::body})">
-<title th:text="#{users}"></title>
+<title th:text="|#{GoBuy} ${'|'}  #{users}|"></title>
 <link>
 <body th:replace="base/page/body :: body(~{::main}, ~{::script})">
 <main>
-    <a th:href="@{/users/new}" type="button" class="btn btn-link" data-mdb-ripple-color="dark"
-       th:text="#{create-new-user}"></a>
+    <div class="row">
+        <div class="col"><h2 th:text="#{manage-system-users}"></h2></div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a th:href="@{/users/new}" type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark"
+               th:text="#{create-new-user}"></a>
+        </div>
+    </div>
     <table class="table align-middle mb-0 bg-white">
         <thead class="bg-light">
         <tr>
@@ -98,6 +105,17 @@
             form.submit();
         })
     })
+
+
+
+
+
+
+
+
+
+
+
 
 </script>
 </body>
