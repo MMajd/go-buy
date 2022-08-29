@@ -47,6 +47,9 @@ public class RedisConfiguration {
 }
 
 
+/**
+ * @see <a href="https://github.com/spring-projects/spring-data-redis/blob/main/src/main/java/org/springframework/data/redis/serializer/JdkSerializationRedisSerializer.java">Reference Implementation</a>
+ */
 class CustomRedisSerializer implements RedisSerializer<Object> {
     private Converter<Object, byte[]> serializer = new SerializingConverter();
     private Converter<byte[], Object> deserializer = new DeserializingConverter();
@@ -73,8 +76,13 @@ class CustomRedisSerializer implements RedisSerializer<Object> {
         try {
             return serializer.convert(object);
         } catch (Exception ex) {
-            return EMPTY_ARRAY;
+            /**
+             * TODO: add logic here to only return EMPTY_ARRAY for known conditions
+             * else throw the SerializationException
+             * throw new SerializationException("Cannot serialize", ex);
+             **/
 
+            return EMPTY_ARRAY;
         }
     }
 
