@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:lang="#{locale}">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:lang="#{locale}">
 <head>
     <meta charset="UTF-8" content="text/html" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0 minimum-scale=1.0" name="viewport">
@@ -12,13 +13,29 @@
 </head>
 <body class="row d-flex align-items-center">
 <main class="p-0 flex-grow-1 align-items-center">
-    <div class="row d-flex justify-content-center align-items-center">
-        <form class="col-lg-4 col-md-6 col-sm-8 p-lg-4 p-md-4">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <form method="post" th:action="@{/login}"
+              class="col-lg-3 col-md-5 col-sm-8 p-lg-4 p-md-4" style="margin-top:-80px">
+            <th:block th:if="${param.error != null}">
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    <strong th:text="#{failed}"></strong> <span th:text="#{bad-credential}"></span>
+                    <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>
+            </th:block>
+            <th:block th:if="${param.logout != null}">
+                <div class="alert alert-warning alert-dismissible fade show mb-3" role="alert">
+                    <strong th:text="#{logged-out}"></strong> <span th:text="#{you-have-logged-out}"></span>
+                    <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>
+            </th:block>
             <div class="col d-flex align-items-center justify-content-center mt-2 mb-5">
                 <img th:src="@{/public/images/gobuy.png}" alt="#{gobuy-logo}">
             </div>
             <div class="form-outline mb-4">
-                <input type="email" name="email" id="email" class="form-control" th:placeholder="#{enter-password}"/>
+                <input type="email" name="email" id="email" class="form-control"
+                       th:placeholder="#{enter-password}"/>
                 <label class="form-label" for="email" th:text="#{email}"></label>
             </div>
             <div class="form-outline mb-4">

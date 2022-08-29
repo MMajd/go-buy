@@ -6,15 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name="roles")
+@Table(name = "roles")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleEntity {
+public class RoleEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -26,7 +27,7 @@ public class RoleEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof  RoleEntity)) return false;
+        if (!(o instanceof RoleEntity)) return false;
         if (o == this) return true;
         RoleEntity other = (RoleEntity) o;
         return getId().equals(other.getId()) && getName().equals(other.getName());

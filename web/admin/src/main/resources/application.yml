@@ -1,3 +1,7 @@
+app:
+  session: # Should be injected on build
+    key: "asldkjfalsdjfsldfjsdfkj"
+
 server:
   port: 8080
   servlet.context-path: /admin
@@ -5,16 +9,25 @@ server:
     include-message: always
     include-binding-errors: always
 
+#spring.mvc.pathmatch.matching-strategy: ant-path-matcher
+
 spring:
   mvc:
     hiddenmethod.filter.enabled: true
-#    pathmatch.matching-strategy: ant-path-matcher
+  #    pathmatch.matching-strategy: ant-path-matcher
+
+  redis:
+    host: localhost
+    port: 6379
+    password:
+
+  session.store-type: redis
 
   defaultLocale: en
 
   messages:
-      encoding: UTF-8
-      basename: messages/messages
+    encoding: UTF-8
+    basename: messages/messages
 
   datasource:
     url: jdbc:mysql://localhost:3306/gobuy?createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
@@ -40,9 +53,6 @@ flyway:
 logging:
   level:
     gobuy: DEBUG
-
 #    root: DEBUG
 #    org.springframework.orm.jpa: DEBUG
 #    org.springframework.transaction: DEBUG
-
-#spring.mvc.pathmatch.matching-strategy: ant-path-matcher

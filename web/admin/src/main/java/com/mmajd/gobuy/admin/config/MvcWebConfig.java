@@ -14,6 +14,7 @@ import java.util.function.BiFunction;
 @Configuration
 @Slf4j
 public class MvcWebConfig implements WebMvcConfigurer {
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // NOTE: Path is prefixed with / in the beginning

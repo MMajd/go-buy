@@ -1,6 +1,7 @@
-<ul th:fragment="topbar" class="navbar-nav ms-auto d-flex flex-row" xmlns:th="http://www.thymeleaf.org">
+<ul th:fragment="topbar" class="navbar-nav ms-auto d-flex flex-row" xmlns:th="http://www.thymeleaf.org"
+>
     <!-- Notification dropdown -->
-    <li class="nav-item dropdown">
+    <li class="nav-item dropdown d-flex align-items-center justify-content">
         <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#"
            id="notification"
            role="button" data-mdb-toggle="dropdown" aria-expanded="fale">
@@ -21,7 +22,7 @@
     </li>
 
     <!-- Icon dropdown -->
-    <li class="nav-item dropdown">
+    <li class="nav-item dropdown d-flex align-items-center justify-content">
         <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdown"
            role="button" data-mdb-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-language"></i>
@@ -38,16 +39,26 @@
     </li>
 
     <!-- Avatar -->
-    <li class="nav-item dropdown">
+    <li class="nav-item dropdown d-flex align-items-center justify-content">
         <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
            id="account-settings" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-            <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle"
+            <img th:src="@{${#authentication.principal.imagePath}}"
+                 th:alt="${#authentication.principal.fullName}"
+                 class="rounded-circle px-1"
+                 style="object-fit: cover"
                  height="22" alt="" loading="lazy"/>
+
+            <small style="font-size: 10px;" th:text="${#authentication.principal.fullName}"></small>
         </a>
+        .
+        <form id="logout-form" th:hidden="true" th:action="@{/logout}" method="post">
+        </form>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="account-settings">
             <li><a class="dropdown-item" href="#" th:text="#{profile}"></a></li>
             <li><a class="dropdown-item" href="#" th:text="#{settings}"></a></li>
-            <li><a class="dropdown-item" href="#" th:text="#{logout}"></a></li>
+            <li>
+                <button class="dropdown-item" form="logout-form" th:text="#{logout}"></button>
+            </li>
         </ul>
     </li>
 </ul>

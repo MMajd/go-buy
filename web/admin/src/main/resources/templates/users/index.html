@@ -34,7 +34,7 @@
                 <div class="d-flex align-items-center">
                     <img
                             th:src="@{${user.imagePath}}" th:alt="${user.fullName}"
-                            style="width: 45px; height: 45px"
+                            style="width: 45px; height: 45px; object-fit: cover"
                             class="rounded-circle"
                     />
                     <div class="ms-3">
@@ -113,6 +113,10 @@
             form.submit();
         })
     })
+
+
+
+
 
 </script>
 </body>
