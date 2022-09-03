@@ -12,7 +12,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import java.util.Locale;
 
-//TODO: Add UrlBuilder in thymeleaf
+// TODO: Add UrlBuilder in thymeleaf
 
 @Configuration
 public class LocaleConfig implements WebMvcConfigurer {

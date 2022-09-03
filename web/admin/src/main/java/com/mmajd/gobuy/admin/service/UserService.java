@@ -1,6 +1,6 @@
 package com.mmajd.gobuy.admin.service;
 
-import com.mmajd.gobuy.admin.exceptions.NotFoundException;
+import com.mmajd.gobuy.admin.exception.NotFoundException;
 import com.mmajd.gobuy.admin.repository.UserRepository;
 import com.mmajd.gobuy.common.entity.UserEntity;
 import lombok.RequiredArgsConstructor;

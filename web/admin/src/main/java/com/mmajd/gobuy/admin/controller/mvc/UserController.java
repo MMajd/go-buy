@@ -2,7 +2,7 @@ package com.mmajd.gobuy.admin.controller.mvc;
 
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfPTable;
-import com.mmajd.gobuy.admin.exceptions.NotFoundException;
+import com.mmajd.gobuy.admin.exception.NotFoundException;
 import com.mmajd.gobuy.admin.service.RoleService;
 import com.mmajd.gobuy.admin.service.UserService;
 import com.mmajd.gobuy.admin.utils.FileUploadUtil;

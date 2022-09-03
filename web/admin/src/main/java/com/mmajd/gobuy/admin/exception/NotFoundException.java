@@ -1,4 +1,4 @@
-package com.mmajd.gobuy.admin.exceptions;
+package com.mmajd.gobuy.admin.exception;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException() {
