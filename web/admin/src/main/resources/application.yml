@@ -1,6 +1,8 @@
 app:
   session: # Should be injected on build
-    key: "asldkjfalsdjfsldfjsdfkj"
+    key: the big secret
+  locale:
+    default: en
 
 server:
   port: 8080
@@ -21,9 +23,8 @@ spring:
     port: 6379
     password:
 
-  session.store-type: redis
-
-  defaultLocale: en
+  session:
+    store-type: redis
 
   messages:
     encoding: UTF-8

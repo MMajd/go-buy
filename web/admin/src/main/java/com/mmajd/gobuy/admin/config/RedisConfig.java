@@ -17,7 +17,7 @@ import org.springframework.session.Session;
 
 //@Configuration
 @Configuration
-public class RedisConfiguration {
+public class RedisConfig {
     @Value("${spring.redis.host}")
     private String redisHost;
     @Value("${spring.redis.port}")

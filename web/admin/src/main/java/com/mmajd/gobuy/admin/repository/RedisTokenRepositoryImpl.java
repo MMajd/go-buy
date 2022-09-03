@@ -25,7 +25,7 @@ public class RedisTokenRepositoryImpl implements PersistentTokenRepository {
         USERNAME("USERNAME_KEY", 0),
         TOKEN_VALUE("TOKEN_VALUE_KEY", 1),
         DATE("DATE_KEY", 2),
-        SERIES("SERIES", 3);
+        SERIES("SERIES_KEY", 3);
 
         @Getter
         private final String value;
@@ -48,39 +48,36 @@ public class RedisTokenRepositoryImpl implements PersistentTokenRepository {
 
     @Override
     public void createNewToken(PersistentRememberMeToken token) {
-        String key = generateKey(token.getSeries());
+        String seriesKey = generateKey(token.getSeries());
         String usernameKey = generateKey(token.getUsername());
-
-        log.info(key, usernameKey);
 
         redisTemplate.opsForValue().set(usernameKey, token.getSeries());
         redisTemplate.expire(usernameKey, TOKEN_VALID_DAYS, TimeUnit.DAYS);
-
         Map<String, String> map = new HashMap<>() {{
             put(KEYS.USERNAME.getValue(), token.getUsername());
             put(KEYS.TOKEN_VALUE.getValue(), token.getTokenValue());
-            put(KEYS.DATE.getValue(), String.valueOf(token.getDate().getTime()));
-            put(KEYS.DATE.getValue(), token.getSeries());
+            put(KEYS.DATE.getValue(), Long.toString(token.getDate().getTime()));
+            put(KEYS.SERIES.getValue(), token.getSeries());
         }};
 
-        redisTemplate.opsForHash().putAll(key, map);
-        redisTemplate.expire(key, TOKEN_VALID_DAYS, TimeUnit.DAYS);
+        redisTemplate.opsForHash().putAll(seriesKey, map);
+        redisTemplate.expire(seriesKey, TOKEN_VALID_DAYS, TimeUnit.DAYS);
     }
 
     @Override
     public void updateToken(String series, String tokenValue, Date date) {
-        String key = generateKey(series);
-        if (redisTemplate.hasKey(key)) {
-            redisTemplate.opsForHash().put(key, KEYS.TOKEN_VALUE.getValue(), tokenValue);
-            redisTemplate.opsForHash().put(key, KEYS.DATE.getValue(), String.valueOf(date.getTime()));
+        String seriesKey = generateKey(series);
+        if (redisTemplate.hasKey(seriesKey)) {
+            redisTemplate.opsForHash().put(seriesKey, KEYS.TOKEN_VALUE.getValue(), tokenValue);
+            redisTemplate.opsForHash().put(seriesKey, KEYS.DATE.getValue(), String.valueOf(date.getTime()));
         }
 
     }
 
     @Override
     public PersistentRememberMeToken getTokenForSeries(String series) {
-        String key = generateKey(series);
-        List<String> hashValues = redisTemplate.opsForHash().multiGet(key, List.of(HASH_KEYS));
+        String seriesKey = generateKey(series);
+        List<String> hashValues = redisTemplate.opsForHash().multiGet(seriesKey, List.of(HASH_KEYS));
 
         String username = hashValues.get(KEYS.USERNAME.getIdx());
         String tokenValue = hashValues.get(KEYS.TOKEN_VALUE.getIdx());

@@ -15,9 +15,9 @@ import java.util.Locale;
 //TODO: Add UrlBuilder in thymeleaf
 
 @Configuration
-public class LocaleConfig implements WebMvcConfigurer{
+public class LocaleConfig implements WebMvcConfigurer {
 
-    @Value("${spring.defaultLocale}")
+    @Value("${app.locale.default}")
     String defaultLocale;
 //    @Bean
 //    public MessageSource messageSource() {
