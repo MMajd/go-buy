@@ -7,7 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -24,6 +26,13 @@ public class RoleEntity implements Serializable {
     private String name;
     @Column(name = "description", nullable = false)
     private String description;
+
+    @ManyToMany(targetEntity = Operation.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "roles_operations",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "op_id")
+    )
+    private Set<Operation> ops = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

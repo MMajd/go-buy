@@ -7,9 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -20,9 +19,13 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<RoleEntity> roles = user.getRoles();
 
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>(roles.size());
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>(roles.size());
 
-        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
+        roles.forEach(role ->
+                authorities.add(new SimpleGrantedAuthority(role.getName()))
+        );
+
+        roles.forEach(r -> r.getOps().forEach(op -> authorities.add(new SimpleGrantedAuthority(op.getName()))));
 
         return authorities;
     }

@@ -177,7 +177,7 @@ public class UserController {
 
     // TODO: change this to use async operations
     @GetMapping("/export/csv")
-    String exportCSV(HttpServletResponse response) throws IOException {
+    void exportCSV(HttpServletResponse response) throws IOException {
         String[] mappings = new String[]{"id", "fullName", "email", "roles", "enabled"};
 
         List<UserEntity> users = service.listAll();
@@ -190,8 +190,6 @@ public class UserController {
                 throw new RuntimeException("Could not export users data to csv");
             }
         });
-
-        return "redirect:/users";
     }
 
     // TODO: change this to use async operations

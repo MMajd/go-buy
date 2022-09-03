@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisTokenRepositoryImpl implements PersistentTokenRepository {
     private final RedisTemplate redisTemplate;
-    private static final long TOKEN_VALID_DAYS = 14;
+    private static final long TOKEN_VALID_DAYS = 30;
 
     private enum KEYS {
         USERNAME("USERNAME_KEY", 0),
@@ -108,6 +108,6 @@ public class RedisTokenRepositoryImpl implements PersistentTokenRepository {
     }
 
     private final String generateKey(String series) {
-        return "gobuy:security:token" + series;
+        return "gobuy:security:session-data:" + series;
     }
 }
