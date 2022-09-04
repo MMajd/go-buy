@@ -11,8 +11,6 @@ server:
     include-message: always
     include-binding-errors: always
 
-#spring.mvc.pathmatch.matching-strategy: ant-path-matcher
-
 spring:
   mvc:
     hiddenmethod.filter.enabled: true
@@ -22,8 +20,9 @@ spring:
     host: localhost
     port: 6379
     password:
-session:
-  store-type: redis
+
+  session:
+    store-type: redis
 
   messages:
     encoding: UTF-8
@@ -52,18 +51,7 @@ flyway:
 
 logging:
   level:
-    root: WARN
     gobuy: DEBUG
-
-  file:
-    name: logs/admin/admin.log
-  logback:
-    rollingpolicy:
-      file-name-pattern: logs/admin/backup-%d{yyyy-MM-dd}.%i.log
-      max-file: 5MB
-      total-size-cap: 20MB
-      max-history: 20
-      clean-history-on-start: true
 
 #    org.springframework.orm.jpa: DEBUG
 #    org.springframework.transaction: DEBUG
