@@ -1,0 +1,22 @@
+app:
+  session:
+    key: the big secret
+  locale:
+    default: en
+
+## Logging
+logging:
+  level:
+    root: WARN
+    gobuy: DEBUG
+
+  file:
+    name: logs/admin/admin.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: logs/admin/backup-%d{yyyy-MM-dd}.%i.log
+      max-file: 5MB
+      total-size-cap: 20MB
+      max-history: 20
+      clean-history-on-start: true
+
