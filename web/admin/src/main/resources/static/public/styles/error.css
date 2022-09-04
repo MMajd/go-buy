@@ -1,0 +1,13 @@
+body {
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+main {
+    padding: 10px 30px;
+}
+
+h1 {
+    padding: 30px;
+    color: #f0f0f0;
+}

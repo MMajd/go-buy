@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="base/page/main :: html(~{::title}, ~{::link}, ~{::body})">
+<link rel="stylesheet" th:href="@{/public/styles/error.css}"/>
+<title th:text="|#{GoBuy} ${'|'}  #{error.500}|"></title>
+<link>
+<body>
+<main class="text-center">
+    <div class="bg-danger">
+        <h1 th:text="#{error.500.message}"></h1>
+    </div>
+</main>
+</body>
+</html>

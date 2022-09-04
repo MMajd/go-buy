@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="base/page/main :: html(~{::title}, ~{::link}, ~{::body})">
+<link rel="stylesheet" th:href="@{/public/styles/error.css}"/>
+<title th:text="|#{GoBuy} ${'|'}  #{error.unexpected}|"></title>
+<link>
+<body th:replace="base/page/body :: body(~{::main}, ~{})">
+<main>
+    <div class="danger">
+        <h1 th:text="#{error.unexpected.message}"></h1>
+    </div>
+</main>
+</body>
+</html>
